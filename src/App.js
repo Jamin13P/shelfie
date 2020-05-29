@@ -32,7 +32,7 @@ export default class App extends Component {
     return (
       <div className="App">
         <Dashboard inventory={this.state.inventory} />
-        <Form componentDidMount={this.componentDidMount} inventory={this.state.inventory} />
+        <Form componentDidMount={this.componentDidMount} />
         <Header />
       </div>
     );
