@@ -1,17 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import Product from "../Product/Product";
 
-export default class Dashboard extends Component {
-  constructor() {
-    super();
-  }
-
-  render() {
-    return (
-      <div>
-        Dashboard.js
-        <Product />
-      </div>
-    );
-  }
+function Dashboard(props) {
+  const inventoryMap = props.inventory.map((elem) => (
+    <Product key={elem.id} data={elem} />
+  ));
+  return <div>{inventoryMap}</div>;
 }
+
+export default Dashboard;

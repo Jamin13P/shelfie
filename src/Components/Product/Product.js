@@ -6,6 +6,11 @@ export default class Product extends Component {
   }
 
   render() {
-    return <div>Product.js</div>;
+    const {data} = this.props
+    return <div>
+      <div>{data.imgurl}</div>
+      <div>{data.name}</div>
+      <div>{data.price}</div>
+    </div>;
   }
 }
