@@ -1,27 +1,38 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Header from "./Components/Header/Header";
 import Form from "./Components/Form/Form";
+import axios from "axios";
 import "./App.css";
 
 export default class App extends Component {
-  constructor(){
-    super()
+  constructor() {
+    super();
 
     this.state = {
-      inventory: [{id: 1, name: "Shampoo", price: 5.99, imgurl: "Shampoo url"}, {id: 2, name: "Deodorant", price: 3.99, imgurl: "Deodorant url"}, {id: 3, name: "Brush", price: 8.99, imgurl: "Brush url"}],
+      inventory: [],
     };
+    this.componentDidMount = this.componentDidMount.bind(this)
   }
 
   componentDidMount() {
-
+    axios
+      .get("/api/inventory")
+      .then((res) => {
+        this.setState({
+          inventory: res.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   render() {
     return (
       <div className="App">
         <Dashboard inventory={this.state.inventory} />
-        <Form />
+        <Form componentDidMount={this.componentDidMount} inventory={this.state.inventory} />
         <Header />
       </div>
     );

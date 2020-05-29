@@ -19,6 +19,7 @@ massive({
 app.use(express.json());
 
 app.get("/api/inventory", ctrl.getInventory)
+app.post("/api/product", ctrl.createProduct)
 
 app.listen(SERVER_PORT, () => {
   console.log(`Listening on port ${SERVER_PORT}`);
