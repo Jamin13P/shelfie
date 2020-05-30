@@ -9,6 +9,7 @@ export default class Form extends Component {
       name: "",
       price: 0,
       imgurl: "",
+      id: null
     };
   }
 
@@ -16,9 +17,7 @@ export default class Form extends Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
-  }
-
-  addProduct() {}
+  };
 
   handleCancel() {
     this.setState({
@@ -28,25 +27,45 @@ export default class Form extends Component {
     });
   }
 
-  updateInventory(name, price, imgurl) {
-    const body = { name, price, imgurl };
-
+  addProduct() {
     axios
-      .post("/api/product", body)
-      .then((res) => {
-        this.setState({
-          name: this.state.name,
-          price: this.state.price,
-          imgurl: this.state.imgurl
-        })
+      .post("/api/product", {
+        name: this.state.name,
+        price: this.state.price,
+        imgurl: this.state.imgurl,
+      })
+      .then(() => {
+        this.props.getInventory()
+        .then(() => {
+          this.handleCancel();
+        });
       })
       .catch((err) => {
         console.log(err);
       });
+  }
 
-    this.props.componentDidMount();
+  editProduct(id) {
+    axios
+    .put(`/api/product/${id}`)
+    .then((res) => {
+      this.setState({
+        name: res.data,
+        price: res.data,
+        imgurl: res.data
+      })
+    })
+  }
 
-    this.handleCancel();
+  // I got help with writing this lifecycle method
+  componentDidUpdate(prevProps) {
+    console.log("Previous props: ", prevProps, "Current props: ", this.props)
+
+    if(prevProps.selectedProduct.id !== this.state.id){
+      this.setState({
+        id: this.props.id
+      })
+    }
   }
 
   render() {
@@ -69,7 +88,7 @@ export default class Form extends Component {
           placeholder="image url"
           onChange={(e) => this.handleChange(e)}
         />
-        <button onClick={() => this.updateInventory()}>Add to Inventory</button>
+        {this.state.id == null ? <button onClick={() => this.addProduct()}>Add to Inventory</button> : <button>Save Update</button>}
         <button onClick={() => this.handleCancel()}>Cancel</button>
       </div>
     );

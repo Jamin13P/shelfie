@@ -21,4 +21,26 @@ module.exports = {
         console.log(err);
       });
   },
+
+  editProduct: (req, res) => {
+    const db = req.app.get("db");
+
+    db.editProduct([req.params.id, req.query.desc])
+      .then(() => res.sendStatus(200))
+      .catch((err) => {
+        res.status(500).send(err);
+        console.log(err);
+      });
+  },
+
+  deleteProduct: (req, res) => {
+    const db = req.app.get("db");
+
+    db.delete_product(req.params.id)
+      .then(() => res.sendStatus(200))
+      .catch((err) => {
+        res.status(500).send(err);
+        console.log(err);
+      });
+  },
 };

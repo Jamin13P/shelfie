@@ -1,16 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 
-export default class Product extends Component {
-  constructor() {
-    super();
-  }
-
-  render() {
-    const {data} = this.props
-    return <div>
+export default function Product(props) {
+  const { data } = props;
+  return (
+    <div>
       <div>{data.imgurl}</div>
       <div>{data.name}</div>
       <div>{data.price}</div>
-    </div>;
-  }
+      <button onClick={() => props.handleSelectedProduct(data.id)}>Edit</button>
+      <button onClick={() => props.deleteProduct(data.id)}>Delete</button>
+    </div>
+  );
 }
