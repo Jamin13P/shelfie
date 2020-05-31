@@ -11,10 +11,11 @@ export default class App extends Component {
 
     this.state = {
       inventory: [],
-      selectedProduct: {},
+      selectedProductId: null,
     };
     this.getInventory = this.getInventory.bind(this)
-    this.handleSelectedProduct =this.handleSelectedProduct.bind(this)
+    this.handleSelectedProductId = this.handleSelectedProductId.bind(this)
+    this.resetSelectedProductId = this.resetSelectedProductId.bind(this)
   }
 
   getInventory() {
@@ -30,9 +31,15 @@ export default class App extends Component {
       });
   }
 
-  handleSelectedProduct(selectedProduct) {
+  handleSelectedProductId(selectedProductId) {
     this.setState({
-      selectedProduct: selectedProduct
+      selectedProductId: selectedProductId
+    })
+  }
+
+  resetSelectedProductId() {
+    this.setState({
+      selectedProductId: null
     })
   }
 
@@ -43,9 +50,9 @@ export default class App extends Component {
   render() {
     return (
       <div className="App">
-        <Dashboard getInventory={this.getInventory} inventory={this.state.inventory} handleSelectedProduct={this.handleSelectedProduct} />
-        <Form getInventory={this.getInventory} selectedProduct={this.state.selectedProduct} />
         <Header />
+        <Dashboard getInventory={this.getInventory} inventory={this.state.inventory} handleSelectedProductId={this.handleSelectedProductId} />
+        <Form getInventory={this.getInventory} selectedProductId={this.state.selectedProductId} reset={this.resetSelectedProductId} inventory={this.state.inventory} />
       </div>
     );
   }

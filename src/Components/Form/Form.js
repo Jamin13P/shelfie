@@ -9,7 +9,7 @@ export default class Form extends Component {
       name: "",
       price: 0,
       imgurl: "",
-      id: null
+      id: null,
     };
   }
 
@@ -25,6 +25,7 @@ export default class Form extends Component {
       price: 0,
       imgurl: "",
     });
+    this.props.reset();
   }
 
   addProduct() {
@@ -35,8 +36,7 @@ export default class Form extends Component {
         imgurl: this.state.imgurl,
       })
       .then(() => {
-        this.props.getInventory()
-        .then(() => {
+        this.props.getInventory().then(() => {
           this.handleCancel();
         });
       })
@@ -45,26 +45,43 @@ export default class Form extends Component {
       });
   }
 
-  editProduct(id) {
+  updateProduct() {
     axios
-    .put(`/api/product/${id}`)
-    .then((res) => {
-      this.setState({
-        name: res.data,
-        price: res.data,
-        imgurl: res.data
+      .put(`/api/product/${this.state.id}`, {
+        name: this.state.name,
+        price: this.state.price,
+        imgurl: this.state.imgurl,
       })
-    })
+      .then((res) => {
+        this.setState({
+          name: res.data,
+          price: res.data,
+          imgurl: res.data,
+        });
+        this.props.getInventory().then(() => {
+          this.handleCancel();
+        });
+      });
   }
 
-  // I got help with writing this lifecycle method
-  componentDidUpdate(prevProps) {
-    console.log("Previous props: ", prevProps, "Current props: ", this.props)
+  // I got help on this to understand what it is
+  componentDidUpdate(oldProps) {
+    if (
+      this.props.selectedProductId !== oldProps.selectedProductId &&
+      this.props.selectedProductId != null
+    ) {
+      const productToUpdate = this.props.inventory.find(
+        (product) => product.id === this.props.selectedProductId
+      );
 
-    if(prevProps.selectedProduct.id !== this.state.id){
+      const { name, price, imgurl } = productToUpdate;
+
       this.setState({
-        id: this.props.id
-      })
+        id: this.props.selectedProductId,
+        name,
+        price,
+        imgurl,
+      });
     }
   }
 
@@ -88,7 +105,11 @@ export default class Form extends Component {
           placeholder="image url"
           onChange={(e) => this.handleChange(e)}
         />
-        {this.state.id == null ? <button onClick={() => this.addProduct()}>Add to Inventory</button> : <button>Save Update</button>}
+        {this.props.selectedProductId == null ? (
+          <button onClick={() => this.addProduct()}>Add to Inventory</button>
+        ) : (
+          <button onClick={() => this.updateProduct()}>Save Changes</button>
+        )}
         <button onClick={() => this.handleCancel()}>Cancel</button>
       </div>
     );

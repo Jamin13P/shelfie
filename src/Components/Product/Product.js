@@ -7,7 +7,7 @@ export default function Product(props) {
       <div>{data.imgurl}</div>
       <div>{data.name}</div>
       <div>{data.price}</div>
-      <button onClick={() => props.handleSelectedProduct(data.id)}>Edit</button>
+      <button onClick={() => props.handleSelectedProductId(data.id)}>Edit</button>
       <button onClick={() => props.deleteProduct(data.id)}>Delete</button>
     </div>
   );
