@@ -13,9 +13,9 @@ export default class App extends Component {
       inventory: [],
       selectedProductId: null,
     };
-    this.getInventory = this.getInventory.bind(this)
-    this.handleSelectedProductId = this.handleSelectedProductId.bind(this)
-    this.resetSelectedProductId = this.resetSelectedProductId.bind(this)
+    this.getInventory = this.getInventory.bind(this);
+    this.handleSelectedProductId = this.handleSelectedProductId.bind(this);
+    this.resetSelectedProductId = this.resetSelectedProductId.bind(this);
   }
 
   getInventory() {
@@ -33,27 +33,36 @@ export default class App extends Component {
 
   handleSelectedProductId(selectedProductId) {
     this.setState({
-      selectedProductId: selectedProductId
-    })
+      selectedProductId: selectedProductId,
+    });
   }
 
   resetSelectedProductId() {
     this.setState({
-      selectedProductId: null
-    })
+      selectedProductId: null,
+    });
   }
 
   componentDidMount() {
-    this.getInventory()
+    this.getInventory();
   }
 
   render() {
     return (
-      <div className="App">
-        <Header />
-        <Dashboard getInventory={this.getInventory} inventory={this.state.inventory} handleSelectedProductId={this.handleSelectedProductId} />
-        <Form getInventory={this.getInventory} selectedProductId={this.state.selectedProductId} reset={this.resetSelectedProductId} inventory={this.state.inventory} />
-      </div>
+        <div className="App">
+          <Header />
+          <Dashboard
+            getInventory={this.getInventory}
+            inventory={this.state.inventory}
+            handleSelectedProductId={this.handleSelectedProductId}
+          />
+          <Form
+            getInventory={this.getInventory}
+            selectedProductId={this.state.selectedProductId}
+            reset={this.resetSelectedProductId}
+            inventory={this.state.inventory}
+          />
+        </div>
     );
   }
 }

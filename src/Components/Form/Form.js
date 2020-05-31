@@ -88,29 +88,36 @@ export default class Form extends Component {
   render() {
     return (
       <div>
-        <input
-          name="name"
-          value={this.state.name}
-          placeholder="name"
-          onChange={(e) => this.handleChange(e)}
-        />
-        <input
-          name="price"
-          value={this.state.price}
-          onChange={(e) => this.handleChange(e)}
-        />
-        <input
-          name="imgurl"
-          value={this.state.imgurl}
-          placeholder="image url"
-          onChange={(e) => this.handleChange(e)}
-        />
-        {this.props.selectedProductId == null ? (
-          <button onClick={() => this.addProduct()}>Add to Inventory</button>
-        ) : (
-          <button onClick={() => this.updateProduct()}>Save Changes</button>
-        )}
-        <button onClick={() => this.handleCancel()}>Cancel</button>
+          <input
+            name="name"
+            value={this.state.name}
+            placeholder="name"
+            onChange={(e) => this.handleChange(e)}
+          />
+          <input
+            name="price"
+            value={this.state.price}
+            onChange={(e) => this.handleChange(e)}
+          />
+          <input
+            name="imgurl"
+            value={this.state.imgurl}
+            placeholder="image url"
+            onChange={(e) => this.handleChange(e)}
+          />
+          {this.props.selectedProductId == null ? (
+            <div>
+              <button onClick={() => this.addProduct()}>
+                Add to Inventory
+              </button>
+              <button onClick={() => this.handleCancel()}>Cancel</button>
+            </div>
+          ) : (
+            <div>
+              <button onClick={() => this.updateProduct()}>Save Changes</button>
+              <button onClick={() => this.handleCancel()}>Cancel</button>
+            </div>
+          )}
       </div>
     );
   }
